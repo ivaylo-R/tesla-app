@@ -6,7 +6,11 @@
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "teslaapp",
+<<<<<<< HEAD
     "userInterfaceStyle": "dark",
+=======
+    "userInterfaceStyle": "automatic",
+>>>>>>> de3679d (Initial commit)
     "ios": {
       "icon": "./assets/expo.icon"
     },
@@ -28,7 +32,11 @@
       [
         "expo-splash-screen",
         {
+<<<<<<< HEAD
           "backgroundColor": "#090A0C",
+=======
+          "backgroundColor": "#208AEF",
+>>>>>>> de3679d (Initial commit)
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 76
         }
