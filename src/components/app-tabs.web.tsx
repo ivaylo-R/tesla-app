@@ -1,115 +1,16 @@
-import {
-  Tabs,
-  TabList,
-  TabTrigger,
-  TabSlot,
-  TabTriggerSlotProps,
-  TabListProps,
-} from 'expo-router/ui';
-import { SymbolView } from 'expo-symbols';
-import { Pressable, useColorScheme, View, StyleSheet } from 'react-native';
-
-import { Colors, MaxContentWidth, Spacing } from '@/constants/theme';
-
-import { ExternalLink } from './external-link';
-import { ThemedText } from './themed-text';
-import { ThemedView } from './themed-view';
+import { Tabs, TabList, TabTrigger, TabSlot, TabTriggerSlotProps } from 'expo-router/ui';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 export default function AppTabs() {
-  return (
-    <Tabs>
-      <TabSlot style={{ height: '100%' }} />
-      <TabList asChild>
-        <CustomTabList>
-          <TabTrigger name="home" href="/" asChild>
-            <TabButton>Home</TabButton>
-          </TabTrigger>
-          <TabTrigger name="explore" href="/explore" asChild>
-            <TabButton>Explore</TabButton>
-          </TabTrigger>
-        </CustomTabList>
-      </TabList>
-    </Tabs>
-  );
+  return <Tabs><View style={s.app}><TabSlot style={s.slot}/><TabList style={s.bar}>
+    <TabTrigger name="index" href="/" asChild><TabButton icon="▱">Начало</TabButton></TabTrigger>
+    <TabTrigger name="charging" href="/charging" asChild><TabButton icon="ϟ">Зареждане</TabButton></TabTrigger>
+    <TabTrigger name="trips" href="/trips" asChild><TabButton icon="↗">Пътувания</TabButton></TabTrigger>
+  </TabList></View></Tabs>;
 }
 
-export function TabButton({ children, isFocused, ...props }: TabTriggerSlotProps) {
-  return (
-    <Pressable {...props} style={({ pressed }) => pressed && styles.pressed}>
-      <ThemedView
-        type={isFocused ? 'backgroundSelected' : 'backgroundElement'}
-        style={styles.tabButtonView}>
-        <ThemedText type="small" themeColor={isFocused ? 'text' : 'textSecondary'}>
-          {children}
-        </ThemedText>
-      </ThemedView>
-    </Pressable>
-  );
+function TabButton({ children, isFocused, icon, ref: _ref, ...props }: TabTriggerSlotProps & { icon: string }) {
+  return <Pressable {...props} style={s.tab}><Text style={[s.icon,isFocused&&s.iconActive]}>{icon}</Text><Text style={[s.label,isFocused&&s.labelActive]}>{children}</Text></Pressable>;
 }
 
-export function CustomTabList(props: TabListProps) {
-  const scheme = useColorScheme();
-  const colors = Colors[scheme === 'dark' ? 'dark' : 'light'];
-
-  return (
-    <View {...props} style={styles.tabListContainer}>
-      <ThemedView type="backgroundElement" style={styles.innerContainer}>
-        <ThemedText type="smallBold" style={styles.brandText}>
-          Expo Starter
-        </ThemedText>
-
-        {props.children}
-
-        <ExternalLink href="https://docs.expo.dev" asChild>
-          <Pressable style={styles.externalPressable}>
-            <ThemedText type="link">Docs</ThemedText>
-            <SymbolView
-              tintColor={colors.text}
-              name={{ ios: 'arrow.up.right.square', web: 'link' }}
-              size={12}
-            />
-          </Pressable>
-        </ExternalLink>
-      </ThemedView>
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  tabListContainer: {
-    position: 'absolute',
-    width: '100%',
-    padding: Spacing.three,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  innerContainer: {
-    paddingVertical: Spacing.two,
-    paddingHorizontal: Spacing.five,
-    borderRadius: Spacing.five,
-    flexDirection: 'row',
-    alignItems: 'center',
-    flexGrow: 1,
-    gap: Spacing.two,
-    maxWidth: MaxContentWidth,
-  },
-  brandText: {
-    marginRight: 'auto',
-  },
-  pressed: {
-    opacity: 0.7,
-  },
-  tabButtonView: {
-    paddingVertical: Spacing.one,
-    paddingHorizontal: Spacing.three,
-    borderRadius: Spacing.three,
-  },
-  externalPressable: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: Spacing.one,
-    marginLeft: Spacing.three,
-  },
-});
+const s=StyleSheet.create({app:{flex:1,backgroundColor:'#090A0C'},slot:{flex:1},bar:{position:'absolute',bottom:0,left:0,right:0,height:72,flexDirection:'row',backgroundColor:'#111316',borderTopWidth:1,borderTopColor:'#25282D',paddingBottom:8,paddingTop:9},tab:{flex:1,alignItems:'center',justifyContent:'center',gap:4},icon:{fontSize:19,color:'#858A91',lineHeight:21},iconActive:{color:'#E82127'},label:{fontSize:10,color:'#858A91',fontWeight:'500'},labelActive:{color:'#E82127',fontWeight:'600'}});

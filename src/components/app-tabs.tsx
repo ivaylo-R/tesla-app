@@ -1,31 +1,24 @@
 import { NativeTabs } from 'expo-router/native-tabs';
-import { useColorScheme } from 'react-native';
-
-import { Colors } from '@/constants/theme';
 
 export default function AppTabs() {
-  const scheme = useColorScheme();
-  const colors = Colors[scheme === 'dark' ? 'dark' : 'light'];
-
   return (
     <NativeTabs
-      backgroundColor={colors.background}
-      indicatorColor={colors.backgroundElement}
-      labelStyle={{ selected: { color: colors.text } }}>
+      backgroundColor="#090A0C"
+      tintColor="#E82127"
+      labelStyle={{ color: '#858A91', selected: { color: '#F5F5F6' } }}>
       <NativeTabs.Trigger name="index">
-        <NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon
-          src={require('@/assets/images/tabIcons/home.png')}
-          renderingMode="template"
-        />
+        <NativeTabs.Trigger.Label>Начало</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon sf={{ default: 'car.side', selected: 'car.side.fill' }} md="directions_car" />
       </NativeTabs.Trigger>
 
-      <NativeTabs.Trigger name="explore">
-        <NativeTabs.Trigger.Label>Explore</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon
-          src={require('@/assets/images/tabIcons/explore.png')}
-          renderingMode="template"
-        />
+      <NativeTabs.Trigger name="charging">
+        <NativeTabs.Trigger.Label>Зареждане</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon sf={{ default: 'bolt', selected: 'bolt.fill' }} md="bolt" />
+      </NativeTabs.Trigger>
+
+      <NativeTabs.Trigger name="trips">
+        <NativeTabs.Trigger.Label>Пътувания</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon sf={{ default: 'point.topleft.down.to.point.bottomright.curvepath', selected: 'point.topleft.down.to.point.bottomright.curvepath.fill' }} md="route" />
       </NativeTabs.Trigger>
     </NativeTabs>
   );

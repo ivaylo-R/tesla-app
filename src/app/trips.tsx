@@ -1,0 +1,22 @@
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { StatusBar } from 'expo-status-bar';
+
+const C = { bg: '#090A0C', panel: '#141619', border: '#272A2F', text: '#F5F5F6', muted: '#858A91', red: '#E82127' };
+const trips = [
+  { day: 'ДНЕС', time: '09:18', from: 'бул. „Витоша“ 89', to: 'Бизнес Парк София', distance: '18.6 km', energy: '3.1 kWh', duration: '28 мин' },
+  { day: 'ВЧЕРА', time: '18:07', from: 'Бизнес Парк София', to: 'бул. „Витоша“ 89', distance: '17.9 km', energy: '2.8 kWh', duration: '31 мин' },
+  { day: 'ВЧЕРА', time: '08:42', from: 'бул. „Витоша“ 89', to: 'Бизнес Парк София', distance: '19.2 km', energy: '3.2 kWh', duration: '26 мин' },
+];
+
+export default function TripsScreen() {
+  return <SafeAreaView style={s.safe} edges={['top']}><StatusBar style="light"/><ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
+    <Text style={s.kicker}>МОЯТ TESLA</Text><Text style={s.title}>Пътувания</Text><Text style={s.subtitle}>История на пътуванията · Ноември 2026</Text>
+    <View style={s.summary}><View><Text style={s.label}>ОБЩО РАЗСТОЯНИЕ</Text><Text style={s.total}>1 284<Text style={s.unit}> km</Text></Text></View><View style={s.summaryDivider}/><View><Text style={s.label}>ПЪТУВАНИЯ</Text><Text style={s.total}>42</Text></View></View>
+    <View style={s.filters}><View style={s.filterActive}><Text style={s.filterTextActive}>Всички</Text></View><View style={s.filter}><Text style={s.filterText}>Този месец</Text></View><View style={s.filter}><Text style={s.filterText}>Тази седмица</Text></View></View>
+    {trips.map((trip,index)=><View key={`${trip.time}-${index}`} style={s.trip}><View style={s.tripHeader}><Text style={s.day}>{trip.day}</Text><Text style={s.time}>{trip.time}</Text></View><View style={s.route}><View style={s.timeline}><View style={s.startDot}/><View style={s.line}/><View style={s.endDot}/></View><View style={s.stops}><Text style={s.place}>{trip.from}</Text><Text style={[s.place,{marginTop:18}]}>{trip.to}</Text></View></View><View style={s.tripFooter}><Text style={s.distance}>{trip.distance}</Text><Text style={s.detail}>{trip.duration}</Text><View style={s.bullet}/><Text style={s.detail}>{trip.energy}</Text></View></View>)}
+    <Text style={s.footnote}>Примерни данни · Автоматично записване изключено</Text>
+  </ScrollView></SafeAreaView>;
+}
+
+const s=StyleSheet.create({safe:{flex:1,backgroundColor:C.bg},content:{paddingHorizontal:20,paddingTop:18,paddingBottom:32,maxWidth:600,width:'100%',alignSelf:'center'},kicker:{fontSize:9,fontWeight:'700',letterSpacing:1.4,color:C.red,marginBottom:8},title:{fontSize:30,fontWeight:'700',color:C.text,letterSpacing:-.7},subtitle:{fontSize:13,color:C.muted,marginTop:5,marginBottom:23},summary:{flexDirection:'row',alignItems:'center',padding:17,backgroundColor:C.panel,borderWidth:1,borderColor:'#202327',borderRadius:18},label:{fontSize:9,fontWeight:'700',letterSpacing:1,color:C.muted},total:{fontSize:25,color:C.text,fontWeight:'600',marginTop:5},unit:{fontSize:13,color:C.muted,fontWeight:'400'},summaryDivider:{height:36,width:1,backgroundColor:C.border,marginHorizontal:25},filters:{flexDirection:'row',gap:8,marginTop:19,marginBottom:20},filterActive:{paddingHorizontal:13,paddingVertical:8,borderRadius:18,backgroundColor:'#321719'},filter:{paddingHorizontal:13,paddingVertical:8,borderRadius:18,backgroundColor:C.panel},filterTextActive:{color:'#F17C80',fontSize:11,fontWeight:'600'},filterText:{color:C.muted,fontSize:11},trip:{padding:16,backgroundColor:C.panel,borderWidth:1,borderColor:'#202327',borderRadius:17,marginBottom:10},tripHeader:{flexDirection:'row',justifyContent:'space-between',marginBottom:15},day:{fontSize:9,fontWeight:'700',letterSpacing:1.15,color:C.muted},time:{fontSize:11,color:C.muted},route:{flexDirection:'row'},timeline:{width:17,alignItems:'center',paddingTop:4},startDot:{width:7,height:7,borderRadius:4,backgroundColor:C.red},line:{width:1,height:21,backgroundColor:'#44484D'},endDot:{width:7,height:7,borderRadius:1,borderWidth:1.5,borderColor:'#9DA1A6'},stops:{flex:1},place:{fontSize:12,color:C.text},tripFooter:{flexDirection:'row',alignItems:'center',marginTop:15,paddingTop:12,borderTopWidth:1,borderTopColor:C.border},distance:{fontSize:12,fontWeight:'600',color:C.text},detail:{fontSize:10,color:C.muted,marginLeft:12},bullet:{width:3,height:3,borderRadius:2,backgroundColor:'#5A5F65',marginLeft:11},footnote:{textAlign:'center',fontSize:10,color:'#686D73',marginTop:13}});

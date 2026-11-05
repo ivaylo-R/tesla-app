@@ -1,43 +1,44 @@
 
 {
-  "expo": {
-    "name": "tesla-app",
-    "slug": "tesla-app",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "teslaapp",
-    "userInterfaceStyle": "dark",
-    "ios": {
-      "icon": "./assets/expo.icon"
-    },
-    "android": {
-      "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundImage": "./assets/images/android-icon-background.png",
-        "monochromeImage": "./assets/images/android-icon-monochrome.png"
-      },
-      "predictiveBackGestureEnabled": false
-    },
-    "web": {
-      "output": "server",
-      "favicon": "./assets/images/favicon.png"
-    },
-    "plugins": [
-      "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "backgroundColor": "#090A0C",
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 76
-        }
-      ]
-    ],
-    "experiments": {
-      "typedRoutes": true,
-      "reactCompiler": true
-    }
-  }
+  "name": "tesla-app",
+  "version": "1.0.0",
+  "main": "expo-router/entry",
+  "dependencies": {
+    "@expo/ui": "~58.0.26",
+    "expo": "~58.0.22",
+    "expo-constants": "~58.0.14",
+    "expo-device": "~58.0.5",
+    "expo-font": "~58.0.11",
+    "expo-glass-effect": "~58.0.5",
+    "expo-image": "~58.0.18",
+    "expo-linking": "~58.0.15",
+    "expo-router": "~58.0.29",
+    "expo-splash-screen": "~58.0.12",
+    "expo-status-bar": "~58.0.4",
+    "expo-symbols": "~58.0.4",
+    "expo-system-ui": "~58.0.7",
+    "expo-web-browser": "~58.0.7",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "react-native": "0.88.1",
+    "react-native-gesture-handler": "~3.3.0",
+    "react-native-reanimated": "4.7.1",
+    "react-native-safe-area-context": "~5.10.1",
+    "react-native-screens": "~4.30.1",
+    "react-native-web": "~0.21.4",
+    "react-native-worklets": "0.13.0"
+  },
+  "devDependencies": {
+    "@types/react": "~19.3.0",
+    "typescript": "~6.0.3"
+  },
+  "scripts": {
+    "start": "expo start --port 8085",
+    "reset-project": "node ./scripts/reset-project.js",
+    "android": "expo start --android --port 8085",
+    "ios": "expo start --ios --port 8085",
+    "web": "expo start --web --port 8085",
+    "lint": "expo lint"
+  },
+  "private": true
 }
