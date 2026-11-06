@@ -1,0 +1,21 @@
+project_id = "tesla-app"
+
+[api]
+enabled = true
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db.seed]
+enabled = false
+
+[auth]
+enabled = true
+site_url = "teslaapp://auth/callback"
+additional_redirect_urls = ["teslaapp://auth/callback", "exp://**", "http://localhost:8085/**"]
+enable_signup = true
+
+[auth.email]
+enable_signup = true
+double_confirm_changes = true
+enable_confirmations = true

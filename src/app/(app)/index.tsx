@@ -1,6 +1,8 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
+
+import { useAuth } from '@/features/auth/auth-context';
 
 const C = { bg: '#090A0C', panel: '#141619', raised: '#1B1E22', border: '#272A2F', text: '#F5F5F6', muted: '#858A91', red: '#E82127', green: '#62D6A3' };
 
@@ -19,6 +21,22 @@ function Metric({ label, value, unit, detail }: { label: string; value: string; 
 }
 
 export default function DashboardScreen() {
+  const { user, signOut } = useAuth();
+  const displayName = typeof user?.user_metadata.display_name === 'string'
+    ? user.user_metadata.display_name
+    : user?.email ?? 'Профил';
+  const initials = displayName.split(/[\s@._-]+/).filter(Boolean).slice(0, 2).map((part) => part[0]?.toUpperCase()).join('') || 'T';
+
+  function showAccountActions() {
+    Alert.alert('Профил', user?.email ?? 'Твоят профил', [
+      { text: 'Отказ', style: 'cancel' },
+      { text: 'Изход', style: 'destructive', onPress: async () => {
+        const result = await signOut();
+        if (result.error) Alert.alert('Изходът не беше успешен', result.error);
+      } },
+    ]);
+  }
+
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar style="light" />
@@ -30,7 +48,7 @@ export default function DashboardScreen() {
 
         <View style={styles.headingRow}>
           <View><Text style={styles.pageTitle}>Моят автомобил</Text><Text style={styles.subtitle}>Вторник, 3 ноември</Text></View>
-          <View style={styles.avatar}><Text style={styles.avatarText}>ИВ</Text></View>
+          <Pressable accessibilityRole="button" accessibilityLabel="Профил и изход" onPress={showAccountActions} style={styles.avatar}><Text style={styles.avatarText}>{initials}</Text></Pressable>
         </View>
 
         <View style={styles.vehicleCard}>
