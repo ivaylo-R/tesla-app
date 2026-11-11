@@ -1,21 +1,26 @@
-import { Tabs, TabList, TabTrigger, TabSlot, TabTriggerSlotProps } from 'expo-router/ui';
-import type { Href } from 'expo-router';
+import { router, type Href } from 'expo-router';
+import { Tabs, TabList, TabTrigger, TabSlot, type TabTriggerSlotProps } from 'expo-router/ui';
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useEffect } from 'react';
 
 import { AuthScreen } from '@/features/auth/auth-screen';
 import { useAuth } from '@/features/auth/auth-context';
 
 export default function AppTabs() {
-  const { configured, loading, user } = useAuth();
+  const { configured, loading, user, recoveryRequired } = useAuth();
 
-  if (loading) return <View style={s.loading}><ActivityIndicator color="#E82127" /></View>;
+  useEffect(() => {
+    if (!loading && user && recoveryRequired) router.replace('/auth/reset-password' as Href);
+  }, [loading, recoveryRequired, user]);
+
+  if (loading || (user && recoveryRequired)) return <View style={s.loading}><ActivityIndicator color="#E82127" /></View>;
   if (!configured || !user) return <AuthScreen />;
 
-  return <Tabs><View style={s.app}><TabSlot style={s.slot}/><TabList style={s.bar}>
+  return <Tabs style={s.app}><TabSlot style={s.slot}/><TabList style={s.bar}>
     <TabTrigger name="index" href={'/' as Href} asChild><TabButton icon="▱">Начало</TabButton></TabTrigger>
     <TabTrigger name="charging" href={'/charging' as Href} asChild><TabButton icon="ϟ">Зареждане</TabButton></TabTrigger>
     <TabTrigger name="trips" href={'/trips' as Href} asChild><TabButton icon="↗">Пътувания</TabButton></TabTrigger>
-  </TabList></View></Tabs>;
+  </TabList></Tabs>;
 }
 
 function TabButton({ children, isFocused, icon, ref: _ref, ...props }: TabTriggerSlotProps & { icon: string }) {

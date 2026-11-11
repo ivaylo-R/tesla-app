@@ -1,13 +1,19 @@
+import { router, type Href } from 'expo-router';
 import { NativeTabs } from 'expo-router/native-tabs';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { useEffect } from 'react';
 
 import { AuthScreen } from '@/features/auth/auth-screen';
 import { useAuth } from '@/features/auth/auth-context';
 
 export default function AppTabs() {
-  const { configured, loading, user } = useAuth();
+  const { configured, loading, user, recoveryRequired } = useAuth();
 
-  if (loading) {
+  useEffect(() => {
+    if (!loading && user && recoveryRequired) router.replace('/auth/reset-password' as Href);
+  }, [loading, recoveryRequired, user]);
+
+  if (loading || (user && recoveryRequired)) {
     return <View style={styles.loading}><ActivityIndicator color="#E82127" /></View>;
   }
 

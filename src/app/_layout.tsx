@@ -13,7 +13,7 @@ export default function RootLayout() {
         <AnimatedSplashOverlay />
         <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#090A0C' } }}>
           <Stack.Screen name="(app)" />
-          <Stack.Screen name="auth/callback" />
+          <Stack.Screen name="auth" />
         </Stack>
       </AuthProvider>
     </ThemeProvider>

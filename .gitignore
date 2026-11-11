@@ -52,3 +52,10 @@ example
 
 # Local secrets
 secrets/
+
+# Supabase
+.supabase/
+supabase/.temp/
+supabase/functions/*/.env
+supabase/functions/**/.env
+/supabase/.branches/

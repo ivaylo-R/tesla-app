@@ -1,4 +1,4 @@
-import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 
@@ -27,13 +27,29 @@ export default function DashboardScreen() {
     : user?.email ?? 'Профил';
   const initials = displayName.split(/[\s@._-]+/).filter(Boolean).slice(0, 2).map((part) => part[0]?.toUpperCase()).join('') || 'T';
 
+  async function confirmAndSignOut() {
+    const result = await signOut();
+    if (!result.error) return;
+
+    if (Platform.OS === 'web') {
+      if (typeof window !== 'undefined') window.alert(`Изходът не беше успешен: ${result.error}`);
+      return;
+    }
+
+    Alert.alert('Изходът не беше успешен', result.error);
+  }
+
   function showAccountActions() {
+    if (Platform.OS === 'web') {
+      if (typeof window !== 'undefined' && window.confirm('Искаш ли да излезеш от профила?')) {
+        void confirmAndSignOut();
+      }
+      return;
+    }
+
     Alert.alert('Профил', user?.email ?? 'Твоят профил', [
       { text: 'Отказ', style: 'cancel' },
-      { text: 'Изход', style: 'destructive', onPress: async () => {
-        const result = await signOut();
-        if (result.error) Alert.alert('Изходът не беше успешен', result.error);
-      } },
+      { text: 'Изход', style: 'destructive', onPress: confirmAndSignOut },
     ]);
   }
 

@@ -31,11 +31,10 @@ set local role authenticated;
 select set_config('request.jwt.claim.sub', '10000000-0000-4000-8000-000000000001', true);
 select set_config('request.jwt.claims', '{"sub":"10000000-0000-4000-8000-000000000001","role":"authenticated","app_metadata":{}}', true);
 
-select results_eq(
-  $$insert into public.vehicles (created_by, nickname, model_name, model_year, vin)
-    values ('10000000-0000-4000-8000-000000000001', 'Owner car', 'Model Y', 2023, '5YJSA1E26HF000001')
-    returning nickname$$,
-  ARRAY['Owner car']::text[],
+insert into public.vehicles (created_by, nickname, model_name, model_year, vin)
+values ('10000000-0000-4000-8000-000000000001', 'Owner car', 'Model Y', 2023, '5YJSA1E26HF000001');
+select is(
+  (select count(*) from public.vehicles where nickname = 'Owner car'), 1::bigint,
   'a signed-in user can create their own vehicle'
 );
 
@@ -61,11 +60,10 @@ select is(
 select set_config('request.jwt.claim.sub', '20000000-0000-4000-8000-000000000002', true);
 select set_config('request.jwt.claims', '{"sub":"20000000-0000-4000-8000-000000000002","role":"authenticated","app_metadata":{"role":"admin"}}', true);
 
-select results_eq(
-  $$insert into public.vehicles (created_by, nickname, model_name, model_year, vin)
-    values ('20000000-0000-4000-8000-000000000002', 'Viewer car', 'Model 3', 2024, '5YJ3E1EA1RF000002')
-    returning nickname$$,
-  ARRAY['Viewer car']::text[],
+insert into public.vehicles (created_by, nickname, model_name, model_year, vin)
+values ('20000000-0000-4000-8000-000000000002', 'Viewer car', 'Model 3', 2024, '5YJ3E1EA1RF000002');
+select is(
+  (select count(*) from public.vehicles where nickname = 'Viewer car'), 1::bigint,
   'a second signed-in user can create their own vehicle'
 );
 

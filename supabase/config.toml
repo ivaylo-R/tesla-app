@@ -12,7 +12,7 @@ enabled = false
 [auth]
 enabled = true
 site_url = "teslaapp://auth/callback"
-additional_redirect_urls = ["teslaapp://auth/callback", "exp://**", "http://localhost:8085/**"]
+additional_redirect_urls = ["teslaapp://auth/callback", "teslaapp://auth/callback?flow=recovery", "teslaapp://auth/reset-password?flow=recovery", "exp://**/--/auth/callback**", "exp://**/--/auth/reset-password**", "exps://**/--/auth/reset-password**", "http://localhost:8085/**"]
 enable_signup = true
 
 [auth.email]
